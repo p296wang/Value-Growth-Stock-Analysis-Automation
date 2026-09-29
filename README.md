@@ -54,6 +54,18 @@ set SEC_USER_AGENT=Your Name you@example.com      # PowerShell: $env:SEC_USER_AG
 
 Run the tests with `pytest`.
 
+### Deploying to Vercel (free Hobby plan)
+
+The repo is set up to deploy on Vercel. [`app.py`](app.py) exposes the Flask app, and [`vercel.json`](vercel.json) allows up to 60 seconds per request.
+
+1. Sign in at [vercel.com](https://vercel.com) with GitHub, then click **Add New → Project** and import this repository.
+2. Keep the defaults (Framework: Flask or Other, no build command) and click **Deploy**.
+3. *Optional:* under **Settings → Environment Variables**, add `SEC_USER_AGENT` (e.g. `Your Name you@example.com`) to enable 10+ years of SEC EPS history.
+
+Every push to `main` redeploys automatically. Pushes to other branches get preview URLs.
+
+**Limitations:** Yahoo Finance sometimes rate-limits requests from cloud servers. If the deployed site shows fetch errors that don't happen locally, that's the cause. The cache lives in memory per server instance, so a cold start fetches fresh data.
+
 ---
 
 ## 1. Goals & Non-Goals
