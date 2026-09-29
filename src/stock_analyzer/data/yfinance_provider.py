@@ -68,7 +68,9 @@ class YFinanceProvider:
         data.eps_history, data.eps_source = self._eps_history(ticker, data.income, splits)
         if data.eps_source.startswith("SEC"):
             data.sources.append("SEC EDGAR XBRL company facts: annual EPS history")
-        data.price_lows = _safe(lambda: _price_lows(tk, list(data.eps_history)), {})
+        hist = _safe(lambda: _daily_history(tk), pd.DataFrame())
+        data.price_lows = _safe(lambda: _price_lows(hist, list(data.eps_history)), {})
+        data.price_history = _safe(lambda: _price_history(hist), {})
         return data
 
     def _eps_history(self, ticker: str, income: Statement, splits: pd.Series) -> tuple[dict[str, float], str]:
@@ -142,15 +144,31 @@ def _insiders(tk: yf.Ticker) -> list[InsiderTransaction]:
     return out
 
 
-def _price_lows(tk: yf.Ticker, fiscal_year_ends: list[str]) -> dict[str, float]:
-    """Lowest daily price during each fiscal year (the 12 months ending on the fiscal year end)."""
-    if not fiscal_year_ends:
-        return {}
+def _daily_history(tk: yf.Ticker) -> pd.DataFrame:
+    """Full daily price history (split-adjusted, not dividend-adjusted) with a tz-naive date index."""
     hist = tk.history(period="max", interval="1d", auto_adjust=False)
+    if not hist.empty:
+        hist.index = pd.DatetimeIndex(hist.index).tz_localize(None).normalize()
+    return hist
+
+
+def _price_history(hist: pd.DataFrame, daily_years: int = 2) -> dict[str, float]:
+    """Closing prices for charts: daily for the last `daily_years`, weekly before that to keep it small."""
     if hist.empty:
         return {}
+    close = hist["Close"].dropna()
+    cutoff = close.index[-1] - pd.DateOffset(years=daily_years)
+    older = close[close.index < cutoff].resample("W-FRI").last().dropna()
+    recent = close[close.index >= cutoff]
+    combined = pd.concat([older, recent])
+    return {d.date().isoformat(): round(float(v), 4) for d, v in combined.items()}
+
+
+def _price_lows(hist: pd.DataFrame, fiscal_year_ends: list[str]) -> dict[str, float]:
+    """Lowest daily price during each fiscal year (the 12 months ending on the fiscal year end)."""
+    if not fiscal_year_ends or hist.empty:
+        return {}
     lows = hist["Low"]
-    lows.index = pd.DatetimeIndex(lows.index).tz_localize(None).normalize()
     out = {}
     for end in fiscal_year_ends:
         end_ts = pd.Timestamp(end)

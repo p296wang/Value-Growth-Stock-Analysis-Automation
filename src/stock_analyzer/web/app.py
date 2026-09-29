@@ -6,6 +6,7 @@ import argparse
 import logging
 import time
 import webbrowser
+from datetime import date
 from pathlib import Path
 from threading import Timer
 
@@ -122,6 +123,50 @@ def build_view(report: Report) -> dict:
         "growth_factors": factors("growth"),
         "value_counts": _counts([c.status for c in report.value_checks] + [e.status]),
         "growth_counts": _counts([c.status for c in report.growth_checks]),
+        **_price_header(report),
+        "charts": report.history,
+    }
+
+
+def _long_date(iso: str | None) -> str | None:
+    if not iso:
+        return None
+    d = date.fromisoformat(iso)
+    return f"{d.strftime('%b')} {d.day}, {d.year}"
+
+
+def _signed_pct(frac: float) -> str:
+    return f"{'+' if frac >= 0 else '−'}{abs(frac) * 100:.1f}%"
+
+
+def _price_header(report: Report) -> dict:
+    """Hero price figure, daily change and the stat tiles under it."""
+    p, m = report.profile, report.metrics
+    stats = report.history.get("stats", {})
+    price = stats.get("last") or p.price
+    change = stats.get("change_1d")
+    tiles = []
+
+    r1y = stats.get("return_1y")
+    tiles.append({"label": "1-year return", "value": _signed_pct(r1y) if r1y is not None else "N/A",
+                  "delta": ("up" if r1y >= 0 else "down") if r1y is not None else None})
+    low, high = stats.get("low_52w"), stats.get("high_52w")
+    if low is not None and high is not None and high > low:
+        tiles.append({"label": "52-week range", "value": f"${low:,.2f} – ${high:,.2f}",
+                      "range_pct": round((price - low) / (high - low) * 100, 1)})
+    tiles.append({"label": "Market cap", "value": fmt.money(p.market_cap)})
+    pe = m.get("pe")
+    tiles.append({"label": "P/E (trailing)", "value": f"{pe:.1f}" if pe and pe > 0 else "N/A"})
+    dy = p.dividend_rate / price if p.dividend_rate and price else None
+    tiles.append({"label": "Dividend yield", "value": f"{dy * 100:.2f}%" if dy else "None"})
+
+    return {
+        "price": f"${price:,.2f}" if price is not None else "N/A",
+        "price_currency": p.currency if p.currency and p.currency != "USD" else "",
+        "price_date": _long_date(stats.get("last_date")),
+        "change_1d": _signed_pct(change) if change is not None else None,
+        "change_class": ("up" if change >= 0 else "down") if change is not None else None,
+        "tiles": tiles,
     }
 
 
