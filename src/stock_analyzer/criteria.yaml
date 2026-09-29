@@ -1,0 +1,144 @@
+# Thresholds from the COMM 101 Stock Picking Assignment (Prof. Peter Blake).
+# Percentages are written as percent numbers (15 means 15%).
+# op: lt (below), gt (above), between (inclusive range [low, high])
+
+value_checks:
+  - id: peg
+    label: Price / Earnings Growth (PEG)
+    metric: peg
+    op: lt
+    threshold: 1
+    unit: x
+    rationale: Price is low relative to how fast earnings are growing.
+  - id: pe
+    label: Price / Earnings (P/E)
+    metric: pe
+    op: lt
+    threshold: 15
+    unit: x
+    rationale: 15 is the historical market average; below it the stock is cheap relative to its earnings.
+  - id: pb
+    label: Price / Book (P/B)
+    metric: pb
+    op: lt
+    threshold: 1
+    unit: x
+    rationale: The market prices the company below the book value of its assets.
+  - id: roe
+    label: Return on Equity (ROE)
+    metric: roe
+    op: gt
+    threshold: 15
+    unit: "%"
+    rationale: Strong returns on shareholder capital support the low price.
+  - id: roa
+    label: Return on Assets (ROA)
+    metric: roa
+    op: gt
+    threshold: 4
+    unit: "%"
+    rationale: The company uses its asset base efficiently.
+  - id: de
+    label: Debt / Equity (D/E)
+    metric: de
+    op: lt
+    threshold: 1
+    unit: x
+    rationale: Low financial risk; D/E of 1 or less is roughly the bar for an investment-grade credit rating.
+
+eps_test:
+  label: 10-Year EPS Test
+  hurdle: 12          # % annual compound return investors expect for taking on equity risk
+  max_years: 10
+
+growth_checks:
+  - id: gross_margin
+    label: Gross Profit Margin
+    metric: gross_margin
+    op: gt
+    threshold: 40
+    unit: "%"
+    rationale: High gross margins show real pricing power.
+  - id: operating_margin
+    label: Operating Profit Margin
+    metric: operating_margin
+    op: between
+    threshold: [10, 25]
+    unit: "%"
+    rationale: Profitable while still reinvesting heavily in R&D and expansion.
+  - id: net_margin
+    label: Net Profit Margin
+    metric: net_margin
+    op: gt
+    threshold: 10
+    unit: "%"
+    rationale: Converts revenue into profit efficiently.
+  - id: roe
+    label: Return on Equity (ROE)
+    metric: roe
+    op: gt
+    threshold: 15
+    unit: "%"
+    rationale: Uses shareholders' capital effectively.
+  - id: current_ratio
+    label: Current Ratio
+    metric: current_ratio
+    op: gt
+    threshold: 2
+    unit: x
+    rationale: Ability to cover obligations due within a year.
+  - id: quick_ratio
+    label: Quick Ratio
+    metric: quick_ratio
+    op: gt
+    threshold: 1.5
+    unit: x
+    rationale: Covers short-term obligations without relying on selling inventory.
+  - id: ar_turnover
+    label: Accounts Receivable Turnover
+    metric: ar_turnover
+    op: gt
+    threshold: 7.3
+    unit: x
+    rationale: Customers pay quickly.
+  - id: inventory_turnover
+    label: Inventory Turnover
+    metric: inventory_turnover
+    op: gt
+    threshold: 7.3
+    unit: x
+    rationale: Inventory sells quickly.
+  - id: working_capital
+    label: Healthy Working Capital (CA > CL)
+    metric: working_capital
+    op: gt
+    threshold: 0
+    unit: "$"
+    rationale: Current assets exceed current liabilities.
+
+# Not in the assignment tables. These separate growth from value in practice
+# and count toward the growth score (see README section 3).
+growth_signals:
+  - id: revenue_growth
+    label: Revenue Growth (annual CAGR)
+    metric: revenue_cagr
+    op: gt
+    threshold: 10
+    unit: "%"
+    rationale: Sales are expanding quickly.
+  - id: eps_growth_forward
+    label: Expected EPS Growth (next year)
+    metric: eps_growth_forward
+    op: gt
+    threshold: 10
+    unit: "%"
+    rationale: Analysts expect earnings to keep growing quickly.
+
+classifier:
+  verdict_threshold: 0.6        # score needed to qualify as value or growth
+  sector_typical_weight: 0.5    # partial credit for a fail that is normal for the sector
+  min_coverage: 0.5             # a profile needs at least this share of its checks evaluated to qualify
+  # A value stock has to actually be cheap: ROE/ROA/D/E alone (quality) aren't enough.
+  value_price_gate:
+    checks: [peg, pe, pb]
+    min_pass: 2

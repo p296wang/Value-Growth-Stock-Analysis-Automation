@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if view %}{{ view.report.profile.ticker }} · {% endif %}Value / Growth Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">V/G</span>
+      <span>Value / Growth Analyzer</span>
+    </a>
+    <form class="search" method="get" action="/" id="search">
+      <input name="ticker" value="{{ ticker }}" placeholder="Ticker, e.g. ALAB" autocomplete="off"
+             spellcheck="false" aria-label="Stock ticker" required autofocus>
+      <button type="submit">Analyze</button>
+      <details class="advanced" {% if eps_10y_ago or min_pe %}open{% endif %}>
+        <summary>EPS test inputs</summary>
+        <div class="advanced-body">
+          <p>Optional. Overrides the 10-Year EPS Test's starting values.</p>
+          <label>EPS 10 years ago
+            <input name="eps_10y_ago" type="number" step="any" value="{{ eps_10y_ago if eps_10y_ago is not none }}">
+          </label>
+          <label>Lowest P/E in 10 years
+            <input name="min_pe" type="number" step="any" value="{{ min_pe if min_pe is not none }}">
+          </label>
+        </div>
+      </details>
+    </form>
+  </div>
+  <div class="loading-bar" aria-hidden="true"></div>
+</header>
+
+<main class="wrap">
+{% if error %}
+  <div class="alert" role="alert">{{ error }}</div>
+{% endif %}
+
+{% if not view %}
+  <section class="empty">
+    <h1>Is it a value stock or a growth stock?</h1>
+    <p>Enter a ticker to score it against the COMM 101 value and growth checklists and the 10-Year EPS Test, with sector context and qualitative reasons.</p>
+    <div class="chips">
+      {% for t in examples %}<a class="chip" href="/?ticker={{ t }}">{{ t }}</a>{% endfor %}
+    </div>
+  </section>
+{% else %}
+  {% set r = view.report %}
+  {% set p = r.profile %}
+  {% set v = r.verdict %}
+
+  <section class="card hero verdict-{{ view.verdict_class }}">
+    <div class="hero-top">
+      <div>
+        <div class="ticker">{{ p.ticker }}</div>
+        <h1 class="company">{{ p.name }}</h1>
+        <div class="meta">
+          {{ p.sector or "N/A" }} · {{ p.industry or "N/A" }}
+          {% for k, val in view.profile_rows if k in ("Market cap", "Price") %} · {{ k }} {{ val }}{% endfor %}
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Verdict</div>
+        <div class="verdict-badge">{{ v.label }}</div>
+        <div class="verdict-conf">{{ view.confidence_pct }}% confidence</div>
+      </div>
+    </div>
+
+    <div class="meters">
+      <div class="meter">
+        <div class="meter-head"><span>Value score</span><strong>{{ view.value_pct }}%</strong></div>
+        <div class="meter-track"><div class="meter-fill value" style="width: {{ view.value_pct }}%"></div><div class="meter-mark" title="60% needed"></div></div>
+        <div class="meter-foot">{{ view.value_counts }}</div>
+      </div>
+      <div class="meter">
+        <div class="meter-head"><span>Growth score</span><strong>{{ view.growth_pct }}%</strong></div>
+        <div class="meter-track"><div class="meter-fill growth" style="width: {{ view.growth_pct }}%"></div><div class="meter-mark" title="60% needed"></div></div>
+        <div class="meter-foot">{{ view.growth_counts }}</div>
+      </div>
+    </div>
+    <p class="explanation">{{ v.explanation }}</p>
+    <div class="hero-actions">
+      <a class="button-secondary" href="/report.md?{{ request.query_string.decode() }}">Download Markdown report</a>
+      <span class="muted">Data fetched {{ r.fetched_at }}</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Company</h2>
+    <dl class="facts">
+      {% for k, val in view.profile_rows %}<div><dt>{{ k }}</dt><dd>{{ val }}</dd></div>{% endfor %}
+    </dl>
+    {% if p.summary %}
+    <details class="summary">
+      <summary>Business description</summary>
+      <p>{{ p.summary }}</p>
+    </details>
+    {% endif %}
+  </section>
+
+  {% macro checks_table(rows) %}
+  <div class="table-scroll">
+    <table class="checks">
+      <thead><tr><th>Ratio</th><th>Threshold</th><th class="num">Actual</th><th>Result</th><th>Note</th></tr></thead>
+      <tbody>
+      {% for row in rows %}
+        <tr>
+          <td class="label">{{ row.label }}{% if row.signal %} <span class="star" title="Supplementary growth signal, not part of the assignment table">*</span>{% endif %}</td>
+          <td class="nowrap threshold">{{ row.threshold }}</td>
+          <td class="num">{{ row.actual }}</td>
+          <td class="result"><span class="pill {{ row.status_class }}">{{ row.status }}</span></td>
+          <td class="note">{{ row.note }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endmacro %}
+
+  <div class="grid-2">
+    <section class="card">
+      <h2>Value checklist</h2>
+      {{ checks_table(view.value_rows) }}
+    </section>
+    <section class="card">
+      <div class="card-head">
+        <h2>10-Year EPS Test</h2>
+        <span class="pill {{ view.eps_status_class }}">{{ view.eps_status }}</span>
+      </div>
+      <table class="kv">
+        <tbody>
+        {% for k, val in view.eps_rows %}
+          <tr{% if k == "Annual compound return" %} class="emph"{% endif %}><td>{{ k }}</td><td class="num">{{ val }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% if r.eps_test.inputs_source %}<p class="small muted">Inputs: {{ r.eps_test.inputs_source }}</p>{% endif %}
+      {% if r.eps_test.note %}<p class="small">{{ r.eps_test.note }}</p>{% endif %}
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Growth checklist</h2>
+    {{ checks_table(view.growth_rows) }}
+    <p class="small muted">* Supplementary growth signal, not part of the assignment table.</p>
+  </section>
+
+  <div class="grid-2 even">
+    {% for title, factors in (("Qualitative: value factors", view.value_factors), ("Qualitative: growth factors", view.growth_factors)) %}
+    <section class="card">
+      <h2>{{ title }}</h2>
+      <ul class="factors">
+        {% for f in factors %}
+        <li>
+          <div class="factor-head"><strong>{{ f.name }}</strong><span class="pill {{ f.signal_class }}">{{ f.signal }}</span></div>
+          <p>{{ f.evidence }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+
+  {% if r.caveats %}
+  <section class="card caveats">
+    <h2>Caveats</h2>
+    <ul>{% for c in r.caveats %}<li>{{ c }}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  <section class="sources small muted">
+    <strong>Sources:</strong> {{ r.sources | join("; ") }}
+  </section>
+{% endif %}
+
+  <footer class="disclaimer">{{ disclaimer }}</footer>
+</main>
+
+<script>
+  // Show progress while the server fetches live data (can take a few seconds)
+  document.getElementById("search").addEventListener("submit", function (e) {
+    var input = this.querySelector('input[name="ticker"]');
+    input.value = input.value.trim().toUpperCase();
+    var button = this.querySelector('button');
+    button.disabled = true;
+    button.textContent = "Analyzing…";
+    document.body.classList.add("is-loading");
+  });
+  document.querySelectorAll(".chip").forEach(function (a) {
+    a.addEventListener("click", function () { document.body.classList.add("is-loading"); });
+  });
+  window.addEventListener("pageshow", function () { document.body.classList.remove("is-loading"); });
+</script>
+</body>
+</html>
