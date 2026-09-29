@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 from stock_analyzer import formatting as fmt
 from stock_analyzer.models import CheckResult, CompanyProfile, EpsTestResult, Report
 
@@ -21,9 +23,30 @@ def profile_rows(p: CompanyProfile) -> list[tuple[str, str]]:
     ]
 
 
-def check_row(c: CheckResult) -> tuple[str, str, str, str, str]:
-    actual = fmt.value(c.actual, c.unit)
-    return c.label, fmt.threshold(c.op, c.threshold, c.unit), actual, fmt.STATUS_LABELS[c.status], c.note
+@dataclass
+class CheckRow:
+    check: CheckResult
+    label: str
+    threshold: str
+    actual: str
+    status: str
+    note: str
+
+
+def check_rows(checks: list[CheckResult], report: Report) -> list[CheckRow]:
+    """Display rows for a checklist; a note repeated from an earlier row becomes "Same as above"."""
+    rows, seen = [], set()
+    for c in checks:
+        note = c.note
+        if c.id == "working_capital" and c.status != "na":
+            note = working_capital_note(report) or note
+        if note and note in seen:
+            note = "Same as above."
+        elif note:
+            seen.add(note)
+        rows.append(CheckRow(c, c.label, fmt.threshold(c.op, c.threshold, c.unit), fmt.value(c.actual, c.unit),
+                             fmt.STATUS_LABELS[c.status], note))
+    return rows
 
 
 def working_capital_note(report: Report) -> str | None:

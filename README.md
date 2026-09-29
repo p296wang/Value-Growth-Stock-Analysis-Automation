@@ -18,8 +18,18 @@ Requires Python 3.11+.
 ```bash
 python -m venv .venv
 .venv\Scripts\activate            # macOS/Linux: source .venv/bin/activate
-pip install -e ".[dev]"
+pip install -e ".[dev,web]"
 ```
+
+**Web view.** Start a local server, which opens http://127.0.0.1:8000 in your browser:
+
+```bash
+analyze-web
+```
+
+Type a ticker to see the verdict, score meters, both checklists, the EPS test, and the qualitative factors. You can also enter EPS-test overrides and download the Markdown report. Options: `--port 8080`, `--no-browser`, and `--offline-dir tests/fixtures` (serves saved data only). Stop the server with Ctrl+C.
+
+**Command line:**
 
 ```bash
 analyze ALAB                      # full report in the terminal
@@ -315,7 +325,8 @@ Live results on 2026-09-29: LIEN → Value, ALAB → Growth, NVDA → Growth (fa
 | M5 | Qualitative analyzer | Rule-based evidence for each qualitative factor | Done |
 | M6 | CLI report | Formatted terminal output end to end | Done |
 | M7 | Export | Markdown report files | Done |
-| M8 *(stretch)* | Extras | LLM narrative, web UI, HTML export, sector peer comparison | Not started |
+| M8 | Web view | Local Flask web page (`analyze-web`) | Done |
+| M9 *(stretch)* | Extras | LLM narrative, sector peer comparison, screener | Not started |
 
 ---
 
@@ -329,7 +340,7 @@ Live results on 2026-09-29: LIEN → Value, ALAB → Growth, NVDA → Growth (fa
 ---
 
 ## 10. Decisions
-1. **Interface:** CLI first, with Markdown export. A web UI comes later.
+1. **Interface:** CLI with Markdown export, plus a local web view (`analyze-web`).
 2. **10-year data:** SEC EDGAR XBRL (free), with manual override flags and a shorter-history fallback.
 3. **Qualitative narrative:** rule-based templates now. A Claude-written narrative comes later.
 4. **Verdicts:** four outcomes (Value / Growth / Both / Neither) with a confidence score.

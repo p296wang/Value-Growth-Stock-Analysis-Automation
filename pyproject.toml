@@ -17,16 +17,18 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8"]
+web = ["flask>=3"]
+dev = ["pytest>=8", "flask>=3"]
 
 [project.scripts]
 analyze = "stock_analyzer.cli:main"
+analyze-web = "stock_analyzer.web.app:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-stock_analyzer = ["criteria.yaml"]
+stock_analyzer = ["criteria.yaml", "web/templates/*.html", "web/static/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -58,7 +58,7 @@ def build_report(
         caveats.append(f"EPS test: {eps.note}")
     if not data.eps_source.startswith("SEC"):
         caveats.append("Long-run EPS history comes from Yahoo Finance (about 4 years). Set SEC_USER_AGENT to use "
-                       "10+ years of SEC filings, or pass --eps-10y-ago and --min-pe.")
+                       "10+ years of SEC filings, or enter the EPS test inputs yourself.")
 
     return Report(
         profile=profile,

@@ -61,7 +61,8 @@ def annuity_business(data: CompanyData, m: Metrics) -> QualitativeFactor:
     if keywords:
         evidence.append(f"the business description points to recurring income ({', '.join(keywords[:3])})")
     if declines is not None:
-        evidence.append(f"revenue fell in {declines:.0f} of the last {years - 1:.0f} years")
+        evidence.append(f"revenue rose every year for the last {years - 1:.0f} years" if declines == 0
+                        else f"revenue fell in {declines:.0f} of the last {years - 1:.0f} years")
     if not evidence:
         return QualitativeFactor(name, "value", None, "Not enough revenue history to judge how predictable income is.")
     if keywords and not declines:

@@ -10,9 +10,7 @@ from rich.text import Text
 
 from stock_analyzer import formatting as fmt
 from stock_analyzer.models import CheckResult, Report
-from stock_analyzer.report.common import (
-    DISCLAIMER, check_row, eps_rows, factor_mark, profile_rows, working_capital_note,
-)
+from stock_analyzer.report.common import DISCLAIMER, check_rows, eps_rows, factor_mark, profile_rows
 
 VERDICT_STYLES = {"Value": "bold green", "Growth": "bold cyan", "Both": "bold magenta", "Neither": "bold yellow"}
 STATUS_STYLES = {"Pass": "green", "Fail": "red", "Fail (sector-typical)": "yellow", "N/A": "dim"}
@@ -30,13 +28,9 @@ def _checks_table(title: str, checks: list[CheckResult], report: Report) -> Tabl
     table.add_column("Actual", justify="right", ratio=2)
     table.add_column("Result", ratio=2)
     table.add_column("Note", style="dim", ratio=5)
-    for c in checks:
-        label, threshold, actual, status, note = check_row(c)
-        if c.id == "working_capital" and c.status != "na":
-            note = working_capital_note(report) or note
-        if c.group == "growth_signal":
-            label = f"{label} *"
-        table.add_row(label, threshold, actual, Text(status, style=STATUS_STYLES[status]), note)
+    for row in check_rows(checks, report):
+        label = f"{row.label} *" if row.check.group == "growth_signal" else row.label
+        table.add_row(label, row.threshold, row.actual, Text(row.status, style=STATUS_STYLES[row.status]), row.note)
     return table
 
 

@@ -4,9 +4,7 @@ from __future__ import annotations
 
 from stock_analyzer import formatting as fmt
 from stock_analyzer.models import CheckResult, Report
-from stock_analyzer.report.common import (
-    DISCLAIMER, check_row, eps_rows, factor_mark, profile_rows, working_capital_note,
-)
+from stock_analyzer.report.common import DISCLAIMER, check_rows, eps_rows, factor_mark, profile_rows
 
 
 def _cell(text: str) -> str:
@@ -20,15 +18,11 @@ def _table(headers: list[str], rows: list[list[str]]) -> list[str]:
 
 
 def _check_rows(checks: list[CheckResult], report: Report) -> list[list[str]]:
-    rows = []
-    for c in checks:
-        label, threshold, actual, status, note = check_row(c)
-        if c.id == "working_capital" and c.status != "na":
-            note = working_capital_note(report) or note
-        if c.group == "growth_signal":
-            label += " *"
-        rows.append([label, threshold, actual, f"**{status}**" if status == "Pass" else status, note])
-    return rows
+    return [
+        [f"{r.label} *" if r.check.group == "growth_signal" else r.label, r.threshold, r.actual,
+         f"**{r.status}**" if r.status == "Pass" else r.status, r.note]
+        for r in check_rows(checks, report)
+    ]
 
 
 def _score(s: float | None) -> str:
