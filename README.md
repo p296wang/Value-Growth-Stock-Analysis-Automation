@@ -11,6 +11,41 @@ The methodology automates the framework from the UWaterloo **COMM 101 Stock Pick
 
 ---
 
+## Quick Start
+
+Requires Python 3.11+.
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate            # macOS/Linux: source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+```bash
+analyze ALAB                      # full report in the terminal
+analyze LIEN --export md          # also save reports/LIEN_<date>.md
+analyze LIEN --eps-10y-ago 1.23 --min-pe 5.65   # supply 10-year EPS test inputs by hand
+analyze ALAB --offline tests/fixtures/ALAB.json # run on saved data, no network
+```
+
+| Option | What it does |
+|---|---|
+| `--export md` | Write a Markdown copy of the report (to `--output-dir`, default `reports/`) |
+| `--eps-10y-ago`, `--min-pe` | Override the EPS test's starting EPS and lowest 10-year P/E |
+| `--offline FILE` | Analyze a saved JSON snapshot instead of fetching live data |
+| `--save-fixture FILE` | Save the fetched data as a JSON snapshot |
+| `--config FILE` | Use a custom thresholds file (default: [`src/stock_analyzer/criteria.yaml`](src/stock_analyzer/criteria.yaml)) |
+
+**10+ years of EPS history (optional).** By default the EPS test uses Yahoo Finance's ~4 years of annual EPS. To pull 10+ years from SEC EDGAR filings (US companies), set a User-Agent with your name and email. The SEC requires this and rejects anonymous requests:
+
+```bash
+set SEC_USER_AGENT=Your Name you@example.com      # PowerShell: $env:SEC_USER_AGENT="Your Name you@example.com"
+```
+
+Run the tests with `pytest`.
+
+---
+
 ## 1. Goals & Non-Goals
 
 ### Goals
@@ -107,17 +142,22 @@ The tool should report **sector/peer comparisons** where data allows and say whe
 
 ## 3. Classification Logic
 
-1. Compute the **Value Score** = % of value checks passed (2.1 + 2.2), and the **Growth Score** = % of growth checks passed (2.3).
-2. Supplement with **growth signals** that aren't in the assignment tables but separate growth from value in practice: revenue growth (YoY / 3y CAGR), EPS growth, forward vs. trailing P/E. These act as tie-breakers.
-3. Map the scores to a verdict:
-   - Value Score ≥ threshold *and* Growth Score < threshold → **Value**
-   - Growth Score ≥ threshold *and* Value Score < threshold → **Growth**
-   - Both ≥ threshold → **Both (GARP / blend)**. The report explains which profile fits more strongly.
-   - Neither → **Neither**, with the main failing reasons.
-4. Checks with **missing data** are shown as `N/A` and left out of the denominator. The report lists how many checks couldn't be evaluated.
-5. Sector-adjusted soft passes (see §2.5) are flagged as "Fail (sector-typical)" and weighted less heavily.
+1. Compute the **Value Score** = weighted % of value checks passed (2.1 + the 2.2 EPS test), and the **Growth Score** = weighted % of growth checks passed (2.3).
+2. The growth score also includes two **growth signals** that aren't in the assignment tables but separate growth from value in practice: revenue CAGR > 10% and expected next-year EPS growth > 10%. They're marked with `*` in the report.
+3. Map the scores to a verdict (a profile needs a score ≥ **60%**):
+   - Value qualifies, Growth doesn't → **Value**
+   - Growth qualifies, Value doesn't → **Growth**
+   - Both qualify → **Both (GARP / blend)**. The report names the stronger lean.
+   - Neither qualifies → **Neither**, with the closer fit.
+4. Two guards stop misleading verdicts:
+   - **Price gate:** a value stock must pass at least 2 of the 3 price checks (PEG, P/E, P/B). Strong ROE/ROA/D/E alone describe a *quality* company, not a *cheap* one (e.g., NVDA).
+   - **Minimum coverage:** a profile only qualifies if at least half its checks could be evaluated (e.g., banks, where the liquidity ratios don't apply).
+5. Checks with **missing data** or that are **not meaningful for the sector** are shown as `N/A` and left out of the denominator. Missing data lowers the confidence score.
+6. A fail that is normal for the sector (see §2.5) is shown as "Fail (sector-typical)" and gets half credit.
 
-*Exact thresholds and weights for step 3 are configurable and will be tuned using the known test cases in §7.*
+All thresholds, weights and guards live in [`criteria.yaml`](src/stock_analyzer/criteria.yaml).
+
+**PEG:** Yahoo Finance often doesn't report PEG, so it's computed as P/E ÷ expected EPS growth (%). Growth comes from analyst long-term estimates, then the next-year estimate, then historical EPS CAGR. The report notes which one was used.
 
 ---
 
@@ -191,35 +231,36 @@ Output formats (in priority order):
    └──────────────────┘
 ```
 
-### Proposed stack
+### Stack
 - **Language:** Python 3.11+
-- **Market data:** [`yfinance`](https://github.com/ranaroussi/yfinance) (free, no key) as the primary source. A pluggable provider interface allows adding Financial Modeling Prep / Alpha Vantage / SEC EDGAR later.
+- **Market data:** [`yfinance`](https://github.com/ranaroussi/yfinance) (free, no key) as the primary source, plus SEC EDGAR XBRL company facts for 10+ years of annual EPS (free, needs `SEC_USER_AGENT`). Providers sit behind a small interface, so others can be added.
 - **CLI & formatting:** `typer` + `rich`
-- **Config:** thresholds in `config/criteria.yaml`, so they can be changed without code edits
+- **Config:** thresholds in `src/stock_analyzer/criteria.yaml` (shipped with the package), so they can be changed without code edits
 - **Qualitative narrative:** rule-based templates filled with real data (v1). Optional LLM-written narrative (e.g., the Claude API) based on the fetched data (v2).
 - **Testing:** `pytest`, with saved fixture data for LIEN and ALAB so tests don't depend on live APIs
 
-### Proposed layout
+### Layout
 ```
 ├── README.md
 ├── pyproject.toml
-├── config/
-│   └── criteria.yaml          # all thresholds from §2
 ├── src/stock_analyzer/
 │   ├── cli.py                 # entry point: `analyze <TICKER>`
+│   ├── criteria.yaml          # all thresholds from §2 and classifier settings
+│   ├── analysis.py            # runs the pipeline and builds the Report
+│   ├── models.py              # dataclasses passed between stages
 │   ├── data/
-│   │   ├── provider.py        # abstract interface
-│   │   └── yfinance_provider.py
-│   ├── ratios.py              # ratio + 10-yr EPS test calculations
+│   │   ├── provider.py        # provider interface + JSON fixtures
+│   │   ├── yfinance_provider.py
+│   │   └── sec_edgar.py       # 10+ year annual EPS from SEC filings
+│   ├── ratios.py              # ratio calculations
+│   ├── eps_test.py            # 10-year EPS test
 │   ├── criteria.py            # checklist evaluation
+│   ├── sector.py              # sector context rules
 │   ├── classifier.py          # verdict + confidence
 │   ├── qualitative.py         # qualitative factor evidence + text
-│   ├── sector.py              # sector benchmarks / caveats
-│   └── report/
-│       ├── terminal.py
-│       └── markdown.py
+│   └── report/                # terminal + Markdown renderers
 └── tests/
-    ├── fixtures/              # cached LIEN / ALAB data
+    ├── fixtures/              # saved LIEN / ALAB data
     └── test_*.py
 ```
 
@@ -239,34 +280,42 @@ Output formats (in priority order):
 | **Lowest P/E over 10 years** | Needs 10 years of price and EPS history | **High.** Same as above |
 | Sector / peer benchmark ratios | Static table or peer lookup | Medium |
 
-**Fallbacks:** If 10-year data isn't available, the EPS test uses the longest history available (and labels it, e.g., "4-year EPS test"), or asks the user for the missing values with `--eps-10y-ago` / `--min-pe` CLI flags.
+**Fallbacks:** If 10-year data isn't available, the EPS test uses the longest history available and says so in the report. You can also supply the values with the `--eps-10y-ago` / `--min-pe` CLI flags.
+
+**How the EPS test picks its inputs:**
+- **Current EPS** is trailing 12-month EPS.
+- **Starting EPS** is the earliest profitable fiscal year in the last 10. Loss years are skipped because growth from a loss is undefined.
+- **Lowest P/E** is each fiscal year's lowest share price ÷ that year's EPS, taking the minimum.
+- Only a consecutive run of yearly data points is used. Stub periods, like a pre-merger or SPAC-era year, would otherwise distort growth rates.
 
 ---
 
 ## 7. Validation / Acceptance Criteria
 
 The tool counts as working for v1 when:
-- [ ] `analyze LIEN` returns **Value**, and its ratio scorecard roughly matches the assignment's Table 3.0 (values will drift with market data over time).
-- [ ] `analyze ALAB` returns **Growth**, and its scorecard roughly matches Table 6.0, including the **inventory turnover fail flagged as sector-typical**.
-- [ ] The 10-year EPS test, fed the assignment's LIEN inputs, returns **~13.74%** (unit test with fixed inputs).
-- [ ] Well-known reference stocks classify sensibly (e.g., a mega-cap growth name vs. a mature bank or utility).
-- [ ] Invalid tickers, missing data, and negative earnings (P/E undefined) are handled without crashes and explained clearly in the report.
-- [ ] Every report has a data timestamp, the sources, and a disclaimer.
+- [x] `analyze LIEN` returns **Value**, and its ratio scorecard roughly matches the assignment's Table 3.0 (values will drift with market data over time).
+- [x] `analyze ALAB` returns **Growth**, and its scorecard roughly matches Table 6.0, including the **inventory turnover fail flagged as sector-typical**.
+- [x] The 10-year EPS test, fed the assignment's LIEN inputs, returns **~13.74%** (unit test with fixed inputs).
+- [x] Well-known reference stocks classify sensibly (e.g., a mega-cap growth name vs. a mature bank or utility).
+- [x] Invalid tickers, missing data, and negative earnings (P/E undefined) are handled without crashes and explained clearly in the report.
+- [x] Every report has a data timestamp, the sources, and a disclaimer.
+
+Live results on 2026-09-29: LIEN → Value, ALAB → Growth, NVDA → Growth (fails the value price gate), AAPL / KO / JPM → Neither.
 
 ---
 
 ## 8. Milestones
 
-| # | Milestone | Deliverable |
-|---|---|---|
-| M1 | Project setup | `pyproject.toml`, package skeleton, `criteria.yaml` with all thresholds |
-| M2 | Data layer | yfinance provider + cached fixtures for LIEN / ALAB |
-| M3 | Ratios & EPS test | All ratios computed, 10-yr EPS test with unit tests |
-| M4 | Criteria + classifier | Value/growth scorecards and verdict logic |
-| M5 | Qualitative analyzer | Rule-based evidence for each qualitative factor |
-| M6 | CLI report | Formatted terminal output end to end |
-| M7 | Export | Markdown/HTML report files |
-| M8 *(stretch)* | Extras | LLM narrative, web UI, 10-yr data source, sector peer comparison |
+| # | Milestone | Deliverable | Status |
+|---|---|---|---|
+| M1 | Project setup | `pyproject.toml`, package skeleton, `criteria.yaml` with all thresholds | Done |
+| M2 | Data layer | yfinance provider, SEC EDGAR EPS history, saved fixtures for LIEN / ALAB | Done |
+| M3 | Ratios & EPS test | All ratios computed, 10-yr EPS test with unit tests | Done |
+| M4 | Criteria + classifier | Value/growth scorecards and verdict logic | Done |
+| M5 | Qualitative analyzer | Rule-based evidence for each qualitative factor | Done |
+| M6 | CLI report | Formatted terminal output end to end | Done |
+| M7 | Export | Markdown report files | Done |
+| M8 *(stretch)* | Extras | LLM narrative, web UI, HTML export, sector peer comparison | Not started |
 
 ---
 
@@ -279,11 +328,11 @@ The tool counts as working for v1 when:
 
 ---
 
-## 10. Open Questions
-1. **Interface priority:** Is a CLI enough for v1, or is a web UI (e.g., Streamlit) needed early?
-2. **10-year data:** Are you OK with adding a free-API-key source (FMP / Alpha Vantage) or SEC EDGAR parsing, or should v1 use manual inputs for the EPS test?
-3. **Qualitative narrative:** Rule-based only, or use an LLM (needs an API key) for richer write-ups?
-4. **"Both" / "Neither" handling:** Keep four verdicts, or always force a Value vs. Growth lean?
+## 10. Decisions
+1. **Interface:** CLI first, with Markdown export. A web UI comes later.
+2. **10-year data:** SEC EDGAR XBRL (free), with manual override flags and a shorter-history fallback.
+3. **Qualitative narrative:** rule-based templates now. A Claude-written narrative comes later.
+4. **Verdicts:** four outcomes (Value / Growth / Both / Neither) with a confidence score.
 
 ---
 

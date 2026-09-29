@@ -1,0 +1,709 @@
+{
+ "profile": {
+  "ticker": "LIEN",
+  "name": "Chicago Atlantic BDC, Inc.",
+  "sector": "Financial Services",
+  "industry": "Asset Management",
+  "country": "United States",
+  "currency": "USD",
+  "market_cap": 218393040.0,
+  "price": 9.57,
+  "dividend_rate": 1.36,
+  "employees": null,
+  "summary": "Silver Spike Investment Corp., is a a business development company. It is a specialty finance company, focuses on investing across the cannabis ecosystem through investments in the form of direct loans to, and equity ownership of, privately held cannabis companies. It intends to partner with private equity firms, entrepreneurs, business owners, and management teams to provide credit and equity financing alternatives to support buyouts, recapitalizations, growth initiatives, refinancings, and acquisitions across cannabis companies, including cannabis-enabling technology companies, cannabis-related health and wellness companies, and hemp and CBD distribution companies. The company was founded in 2021 and is based in New York, New York."
+ },
+ "info": {
+  "trailingPE": 7.1954885,
+  "forwardPE": 5.835366,
+  "trailingPegRatio": null,
+  "priceToBook": 0.72199166,
+  "returnOnEquity": 0.10484,
+  "returnOnAssets": 0.06903,
+  "debtToEquity": 8.926,
+  "grossMargins": 1.0,
+  "operatingMargins": 0.61945,
+  "profitMargins": 0.52824,
+  "currentRatio": 0.713,
+  "quickRatio": 0.51,
+  "trailingEps": 1.33,
+  "forwardEps": 1.64,
+  "revenueGrowth": 0.068,
+  "earningsGrowth": -0.294,
+  "totalRevenue": 59972528.0,
+  "bookValue": 13.255
+ },
+ "income": {
+  "Tax Effect Of Unusual Items": {
+   "2022-03-31": 0.0,
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": 0.0
+  },
+  "Tax Rate For Calcs": {
+   "2022-03-31": 0.0,
+   "2023-12-31": 0.21,
+   "2024-12-31": 0.21,
+   "2025-12-31": 0.21
+  },
+  "Total Unusual Items": {
+   "2022-03-31": -328002.0,
+   "2023-12-31": 0.0
+  },
+  "Total Unusual Items Excluding Goodwill": {
+   "2022-03-31": -328002.0,
+   "2023-12-31": 0.0
+  },
+  "Net Income From Continuing Operation Net Minority Interest": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Net Interest Income": {
+   "2022-03-31": 10073.0,
+   "2023-12-31": 11736649.0,
+   "2024-12-31": 19905843.0,
+   "2025-12-31": 49083295.0
+  },
+  "Interest Expense": {
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": 184880.0
+  },
+  "Interest Income": {
+   "2022-03-31": 10073.0,
+   "2023-12-31": 11736649.0,
+   "2024-12-31": 19905843.0,
+   "2025-12-31": 49268175.0
+  },
+  "Normalized Income": {
+   "2022-03-31": -235363.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Net Income From Continuing And Discontinued Operation": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Diluted Average Shares": {
+   "2022-03-31": 877409.0,
+   "2023-12-31": 6214682.0,
+   "2024-12-31": 10343621.0,
+   "2025-12-31": 22820494.0
+  },
+  "Basic Average Shares": {
+   "2022-03-31": 877409.0,
+   "2023-12-31": 6214682.0,
+   "2024-12-31": 10343621.0,
+   "2025-12-31": 22820494.0
+  },
+  "Diluted EPS": {
+   "2022-03-31": -0.64,
+   "2023-12-31": 1.18,
+   "2024-12-31": 0.93,
+   "2025-12-31": 1.46
+  },
+  "Basic EPS": {
+   "2022-03-31": -0.64,
+   "2023-12-31": 1.18,
+   "2024-12-31": 0.93,
+   "2025-12-31": 1.46
+  },
+  "Diluted NI Availto Com Stockholders": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Net Income Common Stockholders": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Net Income": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Net Income Including Noncontrolling Interests": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Net Income Continuous Operations": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Pretax Income": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  },
+  "Special Income Charges": {
+   "2022-03-31": -328002.0,
+   "2023-12-31": 0.0
+  },
+  "Restructuring And Mergern Acquisition": {
+   "2022-03-31": 328002.0,
+   "2023-12-31": 0.0
+  },
+  "Gain On Sale Of Security": {
+   "2023-12-31": -210767.0,
+   "2024-12-31": -74483.0,
+   "2025-12-31": 0.0
+  },
+  "Operating Expense": {
+   "2022-03-31": 245436.0,
+   "2023-12-31": 2691456.0,
+   "2024-12-31": 8348745.0,
+   "2025-12-31": 7246221.0
+  },
+  "Other Operating Expenses": {
+   "2023-12-31": 10655.0,
+   "2024-12-31": 120024.0,
+   "2025-12-31": -859496.0
+  },
+  "Selling General And Administration": {
+   "2022-03-31": 245436.0,
+   "2023-12-31": 2680801.0,
+   "2024-12-31": 8228721.0,
+   "2025-12-31": 8105717.0
+  },
+  "General And Administrative Expense": {
+   "2022-03-31": 245436.0,
+   "2023-12-31": 2680801.0,
+   "2024-12-31": 8228721.0,
+   "2025-12-31": 8105717.0
+  },
+  "Total Revenue": {
+   "2022-03-31": 10073.0,
+   "2023-12-31": 10031564.0,
+   "2024-12-31": 17971283.0,
+   "2025-12-31": 40525400.0
+  },
+  "Operating Revenue": {
+   "2022-03-31": 10073.0,
+   "2023-12-31": 10031564.0,
+   "2024-12-31": 17971283.0,
+   "2025-12-31": 40525400.0
+  }
+ },
+ "balance": {
+  "Ordinary Shares Number": {
+   "2022-03-31": 6214672.0,
+   "2023-12-31": 6214941.0,
+   "2024-12-31": 22820386.0,
+   "2025-12-31": 22820590.0
+  },
+  "Share Issued": {
+   "2022-03-31": 6214672.0,
+   "2023-12-31": 6214941.0,
+   "2024-12-31": 22820386.0,
+   "2025-12-31": 22820590.0
+  },
+  "Net Debt": {
+   "2025-12-31": 22065248.0
+  },
+  "Total Debt": {
+   "2025-12-31": 25000000.0
+  },
+  "Tangible Book Value": {
+   "2022-03-31": 84552090.0,
+   "2023-12-31": 85552618.0,
+   "2024-12-31": 301162578.0,
+   "2025-12-31": 303408074.0
+  },
+  "Invested Capital": {
+   "2025-12-31": 328408074.0
+  },
+  "Net Tangible Assets": {
+   "2022-03-31": 84552090.0,
+   "2023-12-31": 85552618.0,
+   "2024-12-31": 301162578.0,
+   "2025-12-31": 303408074.0
+  },
+  "Common Stock Equity": {
+   "2022-03-31": 84552090.0,
+   "2023-12-31": 85552618.0,
+   "2024-12-31": 301162578.0,
+   "2025-12-31": 303408074.0
+  },
+  "Total Capitalization": {
+   "2025-12-31": 328408074.0
+  },
+  "Total Equity Gross Minority Interest": {
+   "2022-03-31": 84552090.0,
+   "2023-12-31": 85552618.0,
+   "2024-12-31": 301162578.0,
+   "2025-12-31": 303408074.0
+  },
+  "Stockholders Equity": {
+   "2022-03-31": 84552090.0,
+   "2023-12-31": 85552618.0,
+   "2024-12-31": 301162578.0,
+   "2025-12-31": 303408074.0
+  },
+  "Retained Earnings": {
+   "2022-03-31": -427845.0,
+   "2023-12-31": 449266.0,
+   "2024-12-31": -2337660.0,
+   "2025-12-31": 25650.0
+  },
+  "Additional Paid In Capital": {
+   "2022-03-31": 84917788.0,
+   "2023-12-31": 85041203.0,
+   "2024-12-31": 303272034.0,
+   "2025-12-31": 303154218.0
+  },
+  "Capital Stock": {
+   "2022-03-31": 62147.0,
+   "2023-12-31": 62149.0,
+   "2024-12-31": 228204.0,
+   "2025-12-31": 228206.0
+  },
+  "Common Stock": {
+   "2022-03-31": 62147.0,
+   "2023-12-31": 62149.0,
+   "2024-12-31": 228204.0,
+   "2025-12-31": 228206.0
+  },
+  "Total Liabilities Net Minority Interest": {
+   "2022-03-31": 479697.0,
+   "2023-12-31": 3023653.0,
+   "2024-12-31": 8398463.0,
+   "2025-12-31": 38588380.0
+  },
+  "Long Term Debt And Capital Lease Obligation": {
+   "2025-12-31": 25000000.0
+  },
+  "Payables": {
+   "2022-03-31": 479697.0,
+   "2023-12-31": 3023653.0,
+   "2024-12-31": 8398463.0,
+   "2025-12-31": 13588380.0
+  },
+  "Other Payable": {
+   "2022-03-31": 479697.0,
+   "2023-12-31": 3012996.0,
+   "2024-12-31": 8272002.0,
+   "2025-12-31": 5736256.0
+  },
+  "Total Tax Payable": {
+   "2023-12-31": 10655.0,
+   "2024-12-31": 88709.0,
+   "2025-12-31": 69609.0
+  },
+  "Accounts Payable": {
+   "2023-12-31": 2.0,
+   "2024-12-31": 37752.0,
+   "2025-12-31": 7782515.0
+  },
+  "Total Assets": {
+   "2022-03-31": 85031787.0,
+   "2023-12-31": 88576271.0,
+   "2024-12-31": 309561041.0,
+   "2025-12-31": 341996454.0
+  },
+  "Investments And Advances": {
+   "2023-12-31": 54120000.0,
+   "2024-12-31": 275241398.0,
+   "2025-12-31": 333311787.0
+  },
+  "Investmentin Financial Assets": {
+   "2023-12-31": 54120000.0,
+   "2024-12-31": 275241398.0,
+   "2025-12-31": 333311787.0
+  },
+  "Financial Assets Designatedas Fair Value Through Profitor Loss Total": {
+   "2023-12-31": 54120000.0,
+   "2024-12-31": 275241398.0,
+   "2025-12-31": 333311787.0
+  },
+  "Prepaid Assets": {
+   "2022-03-31": 256512.0,
+   "2023-12-31": 39276.0
+  },
+  "Receivables": {
+   "2022-03-31": 9215.0,
+   "2023-12-31": 1755360.0,
+   "2024-12-31": 10066129.0,
+   "2025-12-31": 4979623.0
+  },
+  "Cash And Cash Equivalents": {
+   "2022-03-31": 84766060.0,
+   "2023-12-31": 32611635.0,
+   "2024-12-31": 23932406.0,
+   "2025-12-31": 2934752.0
+  },
+  "Cash Financial": {
+   "2021-12-31": 5400.0
+  },
+  "Cash Cash Equivalents And Federal Funds Sold": {
+   "2022-03-31": 84766060.0,
+   "2023-12-31": 32611635.0,
+   "2024-12-31": 23932406.0,
+   "2025-12-31": 2934752.0
+  }
+ },
+ "cashflow": {
+  "Free Cash Flow": {
+   "2022-03-31": -509110.0,
+   "2023-12-31": 5749532.0,
+   "2024-12-31": -5034633.0,
+   "2025-12-31": -20477731.0
+  },
+  "Repayment Of Debt": {
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": -26500000.0
+  },
+  "Issuance Of Debt": {
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": 51500000.0
+  },
+  "Issuance Of Capital Stock": {
+   "2022-03-31": 85275170.0,
+   "2023-12-31": 0.0,
+   "2024-12-31": 9049462.0,
+   "2025-12-31": 0.0
+  },
+  "End Cash Position": {
+   "2022-03-31": 84766060.0,
+   "2023-12-31": 32611635.0,
+   "2024-12-31": 23932406.0,
+   "2025-12-31": 2934752.0
+  },
+  "Beginning Cash Position": {
+   "2022-03-31": 0.0,
+   "2023-12-31": 35125320.0,
+   "2024-12-31": 32611635.0,
+   "2025-12-31": 23932406.0
+  },
+  "Changes In Cash": {
+   "2022-03-31": 84766060.0,
+   "2023-12-31": -2513685.0,
+   "2024-12-31": -8679229.0,
+   "2025-12-31": -20997654.0
+  },
+  "Financing Cash Flow": {
+   "2022-03-31": 85275170.0,
+   "2023-12-31": -8263217.0,
+   "2024-12-31": -3644596.0,
+   "2025-12-31": -519923.0
+  },
+  "Net Other Financing Charges": {
+   "2022-03-31": 0.0,
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": 0.0
+  },
+  "Cash Dividends Paid": {
+   "2023-12-31": -8263217.0,
+   "2024-12-31": -12419330.0,
+   "2025-12-31": -23274682.0
+  },
+  "Common Stock Dividend Paid": {
+   "2023-12-31": -8263217.0,
+   "2024-12-31": -12419330.0,
+   "2025-12-31": -23274682.0
+  },
+  "Net Common Stock Issuance": {
+   "2022-03-31": 85275170.0,
+   "2023-12-31": 0.0,
+   "2024-12-31": 9049462.0,
+   "2025-12-31": 0.0
+  },
+  "Common Stock Issuance": {
+   "2022-03-31": 85275170.0,
+   "2023-12-31": 0.0,
+   "2024-12-31": 9049462.0,
+   "2025-12-31": 0.0
+  },
+  "Net Issuance Payments Of Debt": {
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": 25000000.0
+  },
+  "Net Long Term Debt Issuance": {
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": 25000000.0
+  },
+  "Long Term Debt Payments": {
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": -26500000.0
+  },
+  "Long Term Debt Issuance": {
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": 51500000.0
+  },
+  "Operating Cash Flow": {
+   "2022-03-31": -509110.0,
+   "2023-12-31": 5749532.0,
+   "2024-12-31": -5034633.0,
+   "2025-12-31": -20477731.0
+  },
+  "Interest Paid Cfo": {
+   "2023-12-31": -115725.0,
+   "2024-12-31": -743775.0,
+   "2025-12-31": -2558891.0
+  },
+  "Change In Working Capital": {
+   "2022-03-31": 54255.0,
+   "2023-12-31": 2274874.0,
+   "2024-12-31": -4107436.0,
+   "2025-12-31": 3684494.0
+  },
+  "Change In Other Current Liabilities": {
+   "2022-03-31": 0.0,
+   "2023-12-31": 0.0,
+   "2024-12-31": 0.0,
+   "2025-12-31": 0.0
+  },
+  "Change In Other Current Assets": {
+   "2022-03-31": 276256.0,
+   "2023-12-31": -50000.0
+  },
+  "Change In Payable": {
+   "2022-03-31": 43726.0,
+   "2023-12-31": 2528106.0,
+   "2024-12-31": 4337286.0,
+   "2025-12-31": -1531558.0
+  },
+  "Change In Prepaid Assets": {
+   "2022-03-31": -256512.0,
+   "2023-12-31": -56953.0,
+   "2024-12-31": -133953.0,
+   "2025-12-31": 129546.0
+  },
+  "Change In Receivables": {
+   "2022-03-31": -9215.0,
+   "2023-12-31": -196279.0,
+   "2024-12-31": -8310769.0,
+   "2025-12-31": 5086506.0
+  },
+  "Other Non Cash Items": {
+   "2023-12-31": -810554.0,
+   "2024-12-31": -1101295.0,
+   "2025-12-31": -2071879.0
+  },
+  "Gain Loss On Investment Securities": {
+   "2023-12-31": -2939171.0,
+   "2024-12-31": -8704665.0,
+   "2025-12-31": -52810634.0
+  },
+  "Net Income From Continuing Operations": {
+   "2022-03-31": -563365.0,
+   "2023-12-31": 7340108.0,
+   "2024-12-31": 9622538.0,
+   "2025-12-31": 33279179.0
+  }
+ },
+ "eps_history": {
+  "2022-03-31": -0.64,
+  "2023-12-31": 1.18,
+  "2024-12-31": 0.93,
+  "2025-12-31": 1.46
+ },
+ "eps_source": "Yahoo Finance (annual statements)",
+ "price_lows": {
+  "2023-12-31": 7.52,
+  "2024-12-31": 7.29,
+  "2025-12-31": 9.7
+ },
+ "growth_estimates": {
+  "0q": -0.0952,
+  "+1q": 0.0833,
+  "0y": 0.0345,
+  "+1y": 0.0933
+ },
+ "insiders": [
+  {
+   "date": "2026-08-31",
+   "insider": "GORDON SCOTT",
+   "position": "Chief Technology Officer",
+   "kind": "buy",
+   "shares": 134.0,
+   "value": 1369.0,
+   "text": "Purchase at price 10.22 per share."
+  },
+  {
+   "date": "2026-08-31",
+   "insider": "COLONNA BERNARDINO",
+   "position": "President",
+   "kind": "buy",
+   "shares": 1000.0,
+   "value": 10230.0,
+   "text": "Purchase at price 10.18 - 10.25 per share."
+  },
+  {
+   "date": "2026-08-27",
+   "insider": "GORDON SCOTT",
+   "position": "Chief Investment Officer",
+   "kind": "buy",
+   "shares": 7733.0,
+   "value": 78672.0,
+   "text": "Purchase at price 10.12 - 10.19 per share."
+  },
+  {
+   "date": "2026-08-27",
+   "insider": "COLONNA BERNARDINO",
+   "position": "President",
+   "kind": "buy",
+   "shares": 1600.0,
+   "value": 16270.0,
+   "text": "Purchase at price 10.16 - 10.18 per share."
+  },
+  {
+   "date": "2026-08-24",
+   "insider": "GORDON SCOTT",
+   "position": "Chief Investment Officer",
+   "kind": "buy",
+   "shares": 9215.0,
+   "value": 90090.0,
+   "text": "Purchase at price 9.70 - 10.11 per share."
+  },
+  {
+   "date": "2026-08-19",
+   "insider": "GORDON SCOTT",
+   "position": "Chief Investment Officer",
+   "kind": "buy",
+   "shares": 44084.0,
+   "value": 420807.0,
+   "text": "Purchase at price 9.54 - 9.57 per share."
+  },
+  {
+   "date": "2026-08-17",
+   "insider": "MAZARAKIS JOHN MICHAEL",
+   "position": "Beneficial Owner of more than 10% of a Class of Security",
+   "kind": "buy",
+   "shares": 60000.0,
+   "value": 566400.0,
+   "text": "Purchase at price 9.44 per share."
+  },
+  {
+   "date": "2026-08-17",
+   "insider": "MAHAJAN UMESH B",
+   "position": "Officer",
+   "kind": "buy",
+   "shares": 4000.0,
+   "value": 38400.0,
+   "text": "Purchase at price 9.60 per share."
+  },
+  {
+   "date": "2026-08-17",
+   "insider": "FAZIO GIANNI JAMES LEZZIERE",
+   "position": "Officer",
+   "kind": "buy",
+   "shares": 200.0,
+   "value": 1910.0,
+   "text": "Purchase at price 9.55 per share."
+  },
+  {
+   "date": "2025-09-19",
+   "insider": "SACK PETER S.",
+   "position": "Chief Executive Officer",
+   "kind": "buy",
+   "shares": 450.0,
+   "value": 5054.0,
+   "text": "Purchase at price 11.23 per share."
+  },
+  {
+   "date": "2025-07-17",
+   "insider": "SACK PETER S.",
+   "position": "Chief Executive Officer",
+   "kind": "buy",
+   "shares": 1000.0,
+   "value": 10470.0,
+   "text": "Purchase at price 10.47 per share."
+  },
+  {
+   "date": "2025-06-06",
+   "insider": "MAHAJAN UMESH B",
+   "position": "Chief Investment Officer",
+   "kind": "buy",
+   "shares": 2112.0,
+   "value": 21681.0,
+   "text": "Purchase at price 10.17 - 10.30 per share."
+  },
+  {
+   "date": "2025-05-29",
+   "insider": "COLONNA BERNARDINO",
+   "position": "President",
+   "kind": "buy",
+   "shares": 1000.0,
+   "value": 10213.0,
+   "text": "Purchase at price 10.21 per share."
+  },
+  {
+   "date": "2025-05-28",
+   "insider": "SACK PETER S.",
+   "position": "Chief Executive Officer",
+   "kind": "buy",
+   "shares": 500.0,
+   "value": 5145.0,
+   "text": "Purchase at price 10.29 per share."
+  },
+  {
+   "date": "2025-05-19",
+   "insider": "SACK PETER S.",
+   "position": "Chief Executive Officer",
+   "kind": "buy",
+   "shares": 500.0,
+   "value": 5210.0,
+   "text": "Purchase at price 10.42 per share."
+  },
+  {
+   "date": "2025-04-17",
+   "insider": "SACK PETER S.",
+   "position": "Chief Executive Officer",
+   "kind": "buy",
+   "shares": 50.0,
+   "value": 525.0,
+   "text": "Purchase at price 10.50 per share."
+  },
+  {
+   "date": "2025-04-10",
+   "insider": "SACK PETER S.",
+   "position": "Chief Executive Officer",
+   "kind": "buy",
+   "shares": 200.0,
+   "value": 2180.0,
+   "text": "Purchase at price 10.82 - 10.98 per share."
+  },
+  {
+   "date": "2025-04-10",
+   "insider": "MAHAJAN UMESH B",
+   "position": "Chief Investment Officer",
+   "kind": "buy",
+   "shares": 600.0,
+   "value": 6443.0,
+   "text": "Purchase at price 10.73 - 10.78 per share."
+  },
+  {
+   "date": "2025-04-04",
+   "insider": "SACK PETER S.",
+   "position": "Chief Executive Officer",
+   "kind": "buy",
+   "shares": 100.0,
+   "value": 1070.0,
+   "text": "Purchase at price 10.70 per share."
+  }
+ ],
+ "fetched_at": "2026-09-29T07:15:01+00:00",
+ "sources": [
+  "Yahoo Finance (yfinance): price, ratios, financial statements, insider transactions"
+ ]
+}
