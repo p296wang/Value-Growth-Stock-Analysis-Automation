@@ -47,6 +47,7 @@ class CompanyData:
     eps_history: dict[str, float] = field(default_factory=dict)  # fiscal year end -> diluted EPS
     eps_source: str = "none"
     price_lows: dict[str, float] = field(default_factory=dict)  # fiscal year end -> lowest price in that year
+    price_history: dict[str, float] = field(default_factory=dict)  # date -> close (daily 2y, weekly before)
     growth_estimates: dict[str, float] = field(default_factory=dict)  # e.g. {"+1y": 0.58}
     insiders: list[InsiderTransaction] = field(default_factory=list)
     fetched_at: str = ""
@@ -126,3 +127,4 @@ class Report:
     caveats: list[str]
     sources: list[str]
     fetched_at: str
+    history: dict[str, Any] = field(default_factory=dict)  # chart series, see history.build_history

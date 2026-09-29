@@ -8,6 +8,7 @@ from typing import Any
 from stock_analyzer import criteria, qualitative
 from stock_analyzer.classifier import classify
 from stock_analyzer.eps_test import eps_test_for
+from stock_analyzer.history import build_history
 from stock_analyzer.models import CompanyData, Report
 from stock_analyzer.ratios import compute_metrics
 
@@ -71,4 +72,5 @@ def build_report(
         caveats=caveats,
         sources=data.sources,
         fetched_at=data.fetched_at,
+        history=build_history(data),
     )

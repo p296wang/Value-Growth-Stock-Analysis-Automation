@@ -32,6 +32,21 @@ def test_alab_report(client):
     assert "Fail (sector-typical)" in html
 
 
+def test_report_includes_charts_and_price_header(client):
+    import json
+    import re
+
+    html = client.get("/?ticker=ALAB").get_data(as_text=True)
+    for chart in ("price", "financials", "eps", "margins"):
+        assert f'data-chart="{chart}"' in html
+    assert "Show data table" in html
+    assert 'class="price-figure">$' in html
+    assert "52-week range" in html and "1-year return" in html
+    data = json.loads(re.search(r'<script type="application/json" id="chart-data">(.*?)</script>', html, re.S).group(1))
+    assert len(data["prices"]) > 100
+    assert data["financials"] and data["eps"]
+
+
 def test_unknown_ticker_shows_error(client):
     resp = client.get("/?ticker=NOPE")
     assert resp.status_code == 200

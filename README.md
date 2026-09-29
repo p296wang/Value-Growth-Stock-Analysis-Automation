@@ -27,7 +27,7 @@ pip install -e ".[dev,web]"
 analyze-web
 ```
 
-Type a ticker to see the verdict, score meters, both checklists, the EPS test, and the qualitative factors. You can also enter EPS-test overrides and download the Markdown report. Options: `--port 8080`, `--no-browser`, and `--offline-dir tests/fixtures` (serves saved data only). Stop the server with Ctrl+C.
+Type a ticker to see the current price and key stats, the verdict and score meters, charts (price history with 6M/1Y/5Y/Max ranges, revenue and net income, EPS, and profit margins, each with a data table), both checklists, the EPS test, and the qualitative factors. You can also enter EPS-test overrides and download the Markdown report. Options: `--port 8080`, `--no-browser`, and `--offline-dir tests/fixtures` (serves saved data only). Stop the server with Ctrl+C.
 
 **Command line:**
 
