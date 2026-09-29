@@ -1,4 +1,4 @@
-# Thresholds from the COMM 101 Stock Picking Assignment (Prof. Peter Blake).
+# Value and growth checklist thresholds.
 # Percentages are written as percent numbers (15 means 15%).
 # op: lt (below), gt (above), between (inclusive range [low, high])
 
@@ -116,8 +116,8 @@ growth_checks:
     unit: "$"
     rationale: Current assets exceed current liabilities.
 
-# Not in the assignment tables. These separate growth from value in practice
-# and count toward the growth score (see README section 3).
+# Extra growth signals on top of the core checklist. They separate growth from
+# value in practice and count toward the growth score.
 growth_signals:
   - id: revenue_growth
     label: Revenue Growth (annual CAGR)

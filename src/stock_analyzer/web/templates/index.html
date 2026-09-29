@@ -44,7 +44,7 @@
 {% if not view %}
   <section class="empty">
     <h1>Is it a value stock or a growth stock?</h1>
-    <p>Enter a ticker to score it against the COMM 101 value and growth checklists and the 10-Year EPS Test, with sector context and qualitative reasons.</p>
+    <p>Enter a ticker to see how it scores on value and growth ratios and a 10-year EPS test, with price and financial charts and plain-language reasons for the verdict.</p>
     <div class="chips">
       {% for t in examples %}<a class="chip" href="/?ticker={{ t }}">{{ t }}</a>{% endfor %}
     </div>
@@ -164,7 +164,7 @@
       <tbody>
       {% for row in rows %}
         <tr>
-          <td class="label">{{ row.label }}{% if row.signal %} <span class="star" title="Supplementary growth signal, not part of the assignment table">*</span>{% endif %}</td>
+          <td class="label">{{ row.label }}{% if row.signal %} <span class="star" title="Extra growth signal on top of the core checklist">*</span>{% endif %}</td>
           <td class="nowrap threshold">{{ row.threshold }}</td>
           <td class="num">{{ row.actual }}</td>
           <td class="result"><span class="pill {{ row.status_class }}">{{ row.status }}</span></td>
@@ -201,7 +201,7 @@
   <section class="card">
     <h2>Growth checklist</h2>
     {{ checks_table(view.growth_rows) }}
-    <p class="small muted">* Supplementary growth signal, not part of the assignment table.</p>
+    <p class="small muted">* Extra growth signal on top of the core checklist.</p>
   </section>
 
   <div class="grid-2 even">

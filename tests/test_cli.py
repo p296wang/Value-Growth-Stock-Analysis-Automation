@@ -43,6 +43,6 @@ def test_markdown_export(tmp_path):
     assert "**Verdict: GROWTH**" in text
 
 
-def test_eps_overrides_reproduce_assignment():
+def test_eps_overrides_are_applied():
     out = run("LIEN", "--offline", str(FIXTURES / "LIEN.json"), "--eps-10y-ago", "1.23", "--min-pe", "5.65")
     assert "EPS 10 years ago" in out
