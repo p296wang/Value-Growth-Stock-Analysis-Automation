@@ -1,76 +1,81 @@
-/* Colors follow the validated reference data-viz palette (light + dark each selected, not flipped). */
+/* Blush theme: soft peach / pink / nude surfaces. Chart series are deeper tones of the same family,
+   validated for colorblind separation and contrast in light and dark mode (rose, periwinkle, warm tan). */
 :root {
   color-scheme: light;
-  --bg: #f9f9f7;             /* page plane */
-  --surface: #fcfcfb;        /* cards and chart surface */
-  --surface-2: #f1f0ec;
-  --border: rgba(11, 11, 11, .10);
-  --text: #0b0b0b;
-  --muted: #52514e;          /* secondary ink */
-  --faint: #898781;          /* axis ticks, captions */
-  --grid: #e1e0d9;
-  --axis: #c3c2b7;
-  --accent: #2a78d6;
+  --bg: #fbe3e6;             /* blush page */
+  --bg-glow: #fdd9cf;        /* peach wash at the top of the page */
+  --surface: #fffaf9;        /* cards and chart surface */
+  --surface-2: #fcebed;      /* tiles, tracks */
+  --border: rgba(150, 80, 95, .14);
+  --text: #3a2328;           /* deep plum-brown ink */
+  --muted: #7a5a60;
+  --faint: #9d7f84;          /* axis ticks, captions */
+  --grid: #f3dfe1;
+  --axis: #e3c6ca;
+  --accent: #b44a70;         /* rose */
   --accent-ink: #ffffff;
+  --nude: #ecc4ae;
 
-  --series-1: #2a78d6;       /* blue */
-  --series-2: #eb6834;       /* orange */
-  --series-3: #1baf7a;       /* aqua (sub-3:1 here: legend + table view carry it) */
+  --series-1: #c94f7c;       /* rose */
+  --series-2: #5b6fd0;       /* periwinkle */
+  --series-3: #c28533;       /* warm tan */
 
-  --up: #006300;             /* success text */
-  --down: #b42318;
-  --pass: #006300;
-  --pass-bg: rgba(12, 163, 12, .12);
-  --fail: #b42318;
-  --fail-bg: rgba(208, 59, 59, .10);
-  --warn: #8a5300;
-  --warn-bg: rgba(250, 178, 25, .18);
-  --na: #52514e;
-  --na-bg: rgba(137, 135, 129, .14);
+  --up: #2f6b3a;
+  --down: #b3261e;
+  --pass: #2f6b3a;
+  --pass-bg: rgba(76, 125, 86, .14);
+  --fail: #b3261e;
+  --fail-bg: rgba(179, 38, 30, .09);
+  --warn: #8a4b2e;
+  --warn-bg: rgba(236, 196, 174, .45);
+  --na: #7a5a60;
+  --na-bg: rgba(150, 80, 95, .08);
 
-  --value: #1d7a46;
-  --growth: #2a78d6;
-  --both: #4a3aa7;
-  --neither: #8a5300;
+  --value: #4c7d56;          /* sage */
+  --growth: #b44a70;         /* rose */
+  --both: #6a58b8;
+  --neither: #a0602e;
 
-  --radius: 14px;
-  --shadow: 0 1px 2px rgba(11, 11, 11, .04), 0 2px 8px rgba(11, 11, 11, .04);
+  --radius: 16px;
+  --shadow: 0 1px 2px rgba(120, 50, 65, .05), 0 4px 16px rgba(120, 50, 65, .06);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --bg: #0d0d0d;
-    --surface: #1a1a19;
-    --surface-2: #232321;
-    --border: rgba(255, 255, 255, .10);
-    --text: #ffffff;
-    --muted: #c3c2b7;
-    --faint: #898781;
-    --grid: #2c2c2a;
-    --axis: #383835;
-    --accent: #3987e5;
-    --accent-ink: #0d0d0d;
+    --bg: #170f11;
+    --bg-glow: #2a1a1c;
+    --surface: #241a1d;
+    --surface-2: #2e2226;
+    --border: rgba(255, 220, 225, .10);
+    --text: #fbeef0;
+    --muted: #d6bcc1;
+    --faint: #9c8589;
+    --grid: #33262a;
+    --axis: #4a383d;
+    --accent: #e27a9c;
+    --accent-ink: #1a1012;
+    --nude: #8a6a5a;
 
-    --series-1: #3987e5;
-    --series-2: #d95926;
-    --series-3: #199e70;
+    --series-1: #d85f8b;
+    --series-2: #6f82de;
+    --series-3: #c08536;
 
-    --up: #0ca30c;
-    --down: #ff7b72;
-    --pass: #3ddc73;
-    --pass-bg: rgba(12, 163, 12, .18);
-    --fail: #ff7b72;
-    --fail-bg: rgba(208, 59, 59, .20);
-    --warn: #fab219;
-    --warn-bg: rgba(250, 178, 25, .14);
-    --na: #c3c2b7;
-    --na-bg: rgba(137, 135, 129, .18);
+    --up: #7fd69a;
+    --down: #ff8e8a;
+    --pass: #7fd69a;
+    --pass-bg: rgba(127, 214, 154, .14);
+    --fail: #ff8e8a;
+    --fail-bg: rgba(255, 142, 138, .14);
+    --warn: #f0c07a;
+    --warn-bg: rgba(240, 192, 122, .12);
+    --na: #d6bcc1;
+    --na-bg: rgba(214, 188, 193, .10);
 
-    --value: #3ddc73;
-    --growth: #6da7ec;
-    --both: #9085e9;
-    --neither: #fab219;
+    --value: #8fcf9c;
+    --growth: #e27a9c;
+    --both: #a79cf0;
+    --neither: #e0b27a;
 
     --shadow: none;
   }
@@ -80,7 +85,7 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: linear-gradient(180deg, var(--bg-glow) 0, var(--bg) 420px) no-repeat, var(--bg);
   color: var(--text);
   font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
