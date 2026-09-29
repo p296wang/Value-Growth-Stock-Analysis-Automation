@@ -1,4 +1,4 @@
-"""The 10-Year EPS Test from the COMM 101 assignment (README section 2.2)."""
+"""The 10-Year EPS Test (see "10-year EPS test" in the README)."""
 
 from __future__ import annotations
 

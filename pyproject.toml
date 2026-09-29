@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "stock-analyzer"
 version = "0.1.0"
-description = "Classify a stock as value or growth using the COMM 101 stock picking methodology."
+description = "Classify a stock as value or growth, with a ratio scorecard, EPS test, charts and qualitative reasons."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

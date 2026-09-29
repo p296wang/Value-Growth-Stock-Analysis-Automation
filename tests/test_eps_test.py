@@ -6,8 +6,17 @@ from stock_analyzer.eps_test import eps_test_for, lowest_pe, run_eps_test
 from stock_analyzer.models import CompanyData, CompanyProfile
 
 
-def test_matches_assignment_chicago_atlantic_example():
-    # Inputs from Table 4.0 of the COMM 101 assignment
+def test_readme_example():
+    r = run_eps_test(eps_then=2.00, eps_now=3.00, years=10, min_pe=12, price=18.00, dividend=1.00)
+    assert r.growth_rate == pytest.approx(0.0414, abs=1e-4)
+    assert r.projected_eps == pytest.approx(4.50)
+    assert r.projected_price == pytest.approx(54.00)
+    assert r.projected_value == pytest.approx(64.00)
+    assert r.annual_return == pytest.approx(0.135, abs=5e-4)
+    assert r.status == "pass"
+
+
+def test_matches_hand_calculated_example():
     r = run_eps_test(eps_then=1.23, eps_now=2.11, years=10, min_pe=5.65, price=10.83, dividend=1.88)
     assert r.growth_rate == pytest.approx(0.0555, abs=1e-4)
     assert r.projected_eps == pytest.approx(3.62, abs=0.01)

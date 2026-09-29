@@ -7,8 +7,8 @@ from dataclasses import dataclass
 from stock_analyzer import formatting as fmt
 from stock_analyzer.models import CheckResult, CompanyProfile, EpsTestResult, Report
 
-DISCLAIMER = ("Educational tool based on COMM 101 coursework methodology. "
-              "This is not financial or investment advice.")
+DISCLAIMER = "For educational purposes only. This is not financial or investment advice."
+SIGNAL_NOTE = "Extra growth signal on top of the core checklist"
 
 
 def profile_rows(p: CompanyProfile) -> list[tuple[str, str]]:

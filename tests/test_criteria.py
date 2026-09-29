@@ -55,7 +55,7 @@ def test_bank_roa_is_sector_typical():
     assert r.status == "sector_typical_fail"
 
 
-def test_default_config_has_assignment_thresholds():
+def test_default_config_thresholds():
     cfg = load_config()
     value = {c["id"]: c["threshold"] for c in cfg["value_checks"]}
     growth = {c["id"]: c["threshold"] for c in cfg["growth_checks"]}

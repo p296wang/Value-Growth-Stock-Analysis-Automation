@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from stock_analyzer import formatting as fmt
 from stock_analyzer.models import CheckResult, Report
-from stock_analyzer.report.common import DISCLAIMER, check_rows, eps_rows, factor_mark, profile_rows
+from stock_analyzer.report.common import DISCLAIMER, SIGNAL_NOTE, check_rows, eps_rows, factor_mark, profile_rows
 
 
 def _cell(text: str) -> str:
@@ -64,7 +64,7 @@ def render(report: Report) -> str:
         "",
         *_table(["Ratio", "Threshold", "Actual", "Result", "Note"], _check_rows(report.growth_checks, report)),
         "",
-        "\\* Supplementary growth signal, not part of the assignment table.",
+        f"\\* {SIGNAL_NOTE}.",
         "",
     ]
     for profile_name, title in (("value", "Qualitative Analysis: Value Factors"),

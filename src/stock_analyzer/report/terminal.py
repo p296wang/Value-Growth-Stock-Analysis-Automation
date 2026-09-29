@@ -10,7 +10,7 @@ from rich.text import Text
 
 from stock_analyzer import formatting as fmt
 from stock_analyzer.models import CheckResult, Report
-from stock_analyzer.report.common import DISCLAIMER, check_rows, eps_rows, factor_mark, profile_rows
+from stock_analyzer.report.common import DISCLAIMER, SIGNAL_NOTE, check_rows, eps_rows, factor_mark, profile_rows
 
 VERDICT_STYLES = {"Value": "bold green", "Growth": "bold cyan", "Both": "bold magenta", "Neither": "bold yellow"}
 STATUS_STYLES = {"Pass": "green", "Fail": "red", "Fail (sector-typical)": "yellow", "N/A": "dim"}
@@ -74,7 +74,7 @@ def render(report: Report, console: Console | None = None) -> None:
         console.print(Text(f"  {e.note}", style="dim"))
 
     console.print(_checks_table("GROWTH CHECKLIST", report.growth_checks, report))
-    console.print(Text("  * Supplementary growth signal, not part of the assignment table", style="dim"))
+    console.print(Text(f"  * {SIGNAL_NOTE}", style="dim"))
 
     for profile_name, title in (("value", "QUALITATIVE: VALUE FACTORS"), ("growth", "QUALITATIVE: GROWTH FACTORS")):
         table = Table(title=title, title_justify="left", box=box.SIMPLE_HEAVY, expand=True, show_lines=False)
